@@ -11,18 +11,35 @@ export default function MainMenuCard() {
   const [selectedMenu, setSelectedMenu] = useState<SelectedMenu>(
     SelectedMenu.Default
   );
+  const [numberOfDisks, setNumberOfDisks] = useState<number>(3);
 
   function switchMode(newSelectedMenu: SelectedMenu) {
     setSelectedMenu(newSelectedMenu);
   }
 
   switch (selectedMenu) {
+    case SelectedMenu.Play:
+      return (
+        <>
+          <h1 className="game-title">Hannoi Tower - Play</h1>
+          <div className="main-card">
+            <h1 className="title">Number of disks : {numberOfDisks}</h1>
+            <input type="range" min="1" max="8" value={numberOfDisks} onChange={(e) => setNumberOfDisks(parseInt(e.target.value))}/>
+            <button
+              className="bottom-btn"
+              onClick={() => switchMode(SelectedMenu.Default)}
+            >
+              Play
+            </button>
+          </div>
+        </>
+      );
     case SelectedMenu.Rules:
       return (
         <>
           <h1 className="game-title">Hannoi Tower - Rules</h1>
           <div className="main-card">
-            <h1 className="rules-title">Rules</h1>
+            <h1 className="title">Rules</h1>
             <p className="rules-text">
               The objective of the puzzle is to move the entire stack to another
               rod, obeying the following simple rules:
@@ -39,7 +56,9 @@ export default function MainMenuCard() {
             <button
               className="bottom-btn"
               onClick={() => switchMode(SelectedMenu.Default)}
-            >Close</button>
+            >
+              Close
+            </button>
           </div>
         </>
       );
@@ -48,7 +67,12 @@ export default function MainMenuCard() {
         <>
           <h1 className="game-title">Hannoi Tower</h1>
           <div className="main-card">
-            <button className="play-btn">Play</button>
+            <button
+              className="play-btn"
+              onClick={() => switchMode(SelectedMenu.Play)}
+            >
+              Play
+            </button>
 
             <button
               className="bottom-btn"
