@@ -1,6 +1,8 @@
+import MainMenuCard from "./components/main-menu-card"
+
 function App() {
   return (
-    <h1>Hannoi Tower</h1>
+      <MainMenuCard/>
   )
 }
 
