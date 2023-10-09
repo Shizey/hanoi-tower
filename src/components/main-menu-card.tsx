@@ -7,11 +7,20 @@ enum SelectedMenu {
   Rules,
 }
 
-export default function MainMenuCard() {
+type MainMenuCardProps = {
+  numberOfDisks: number;
+  setNumberOfDisks: (numberOfDisks: number) => void;
+  setGameStarted: (gameStarted: boolean) => void;
+};
+
+export default function MainMenuCard({
+  numberOfDisks,
+  setNumberOfDisks,
+  setGameStarted,
+}: MainMenuCardProps) {
   const [selectedMenu, setSelectedMenu] = useState<SelectedMenu>(
     SelectedMenu.Default
   );
-  const [numberOfDisks, setNumberOfDisks] = useState<number>(3);
 
   function switchMode(newSelectedMenu: SelectedMenu) {
     setSelectedMenu(newSelectedMenu);
@@ -24,10 +33,16 @@ export default function MainMenuCard() {
           <h1 className="game-title">Hannoi Tower - Play</h1>
           <div className="main-card">
             <h1 className="title">Number of disks : {numberOfDisks}</h1>
-            <input type="range" min="1" max="8" value={numberOfDisks} onChange={(e) => setNumberOfDisks(parseInt(e.target.value))}/>
+            <input
+              type="range"
+              min="3"
+              max="8"
+              value={numberOfDisks}
+              onChange={(e) => setNumberOfDisks(parseInt(e.target.value))}
+            />
             <button
               className="bottom-btn"
-              onClick={() => switchMode(SelectedMenu.Default)}
+              onClick={() => setGameStarted(true)}
             >
               Play
             </button>
@@ -41,8 +56,8 @@ export default function MainMenuCard() {
           <div className="main-card">
             <h1 className="title">Rules</h1>
             <p className="rules-text">
-              The objective of the puzzle is to move the entire stack to another
-              rod, obeying the following simple rules:
+              The objective of the puzzle is to move the entire stack to the
+              last rod, obeying the following simple rules:
               <ul>
                 <li>Only one disk can be moved at a time.</li>
                 <li>
