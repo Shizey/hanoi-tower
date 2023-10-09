@@ -33,7 +33,7 @@
         }
     }
 
-    .rules-btn {
+    .bottom-btn{
         background-color: $button-background-color;
         color: $accentuate;
         border: none;
@@ -49,4 +49,16 @@
         }
     }
     
+    .rules-title {
+        font-size: 2rem;
+        text-align: center;
+        margin-bottom: 1rem;
+        color: $white;
+    }
+
+    .rules-text {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: $white;
+    }
 }
