@@ -1,0 +1,38 @@
+@import "../variables";
+
+.game-board {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5%;
+}
+
+.score {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5%;
+    padding: 15px;
+    background-color: $accentuate;
+    color: $white;
+    border-radius: 50px;
+
+    button {
+        background-color: $button-background-color;
+        color: $white;
+        border-radius: 5px;
+        padding: 10px;
+        border: none;
+        font-size: 1.5rem;
+        font-weight: bold;
+        cursor: pointer;
+
+        &:hover {
+            background-color: $gray;
+            color: $accentuate;
+        }
+    }
+}
