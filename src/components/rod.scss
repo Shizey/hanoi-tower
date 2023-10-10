@@ -1,9 +1,15 @@
 @import "../variables";
 
+.drag-over {
+  background-color: darken($bg-color, 10%);
+  border-radius: 5px;
+}
+
 .RodContainer {
   width: 400px;
   height: 300px;
   position: relative;
+  z-index: 1000;
 
   .VerticalRod {
     width: 10px;
@@ -13,6 +19,15 @@
     left: 50%;
     top: 0;
     transform: translateX(-50%);
+    z-index: -1;
+  }
+
+  .drag {
+    cursor: grab;
+
+    &:active {
+      cursor: grabbing;
+    }
   }
 
   .HorizontalRod {
@@ -23,6 +38,7 @@
     left: 0;
     top: 100%;
     transform: translateY(-50%);
+    z-index: -1;
   }
 
   .eight {
