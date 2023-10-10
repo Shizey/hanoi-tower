@@ -1,13 +1,26 @@
 import { useEffect } from "react";
 import "./rod.scss";
+import deleteOccurence from "../utils/deleteOccurence";
 
 type RodProps = {
   rods: string[][];
   rodIndex: number;
   setRods: (rods: string[][]) => void;
+  setMoves: React.Dispatch<React.SetStateAction<number>>;
 };
 
-export function Rod({ rods, rodIndex, setRods }: RodProps) {
+const diskClassName = [
+  "one",
+  "two",
+  "three",
+  "four",
+  "five",
+  "six",
+  "seven",
+  "eight",
+];
+
+export function Rod({ rods, rodIndex, setRods, setMoves }: RodProps) {
   const rod = rods[rodIndex];
 
   useEffect(() => {
@@ -23,11 +36,18 @@ export function Rod({ rods, rodIndex, setRods }: RodProps) {
       const currentRod = target.dataset.rod;
 
       if (currentRod && target && rods.length > 0) {
-        console.log(rods);
+        target.classList.remove("drag-over");
         const rodContent = rods[parseInt(currentRod)];
-        deleteOccurence(rods, disk);
-        rodContent.push(disk);
-        setRods([...rods]);
+        const lastDisk = rodContent[rodContent.length - 1];
+        if (
+          !lastDisk ||
+          diskClassName.indexOf(lastDisk) > diskClassName.indexOf(disk)
+        ) {
+          setMoves((moves) => moves + 1);
+          deleteOccurence(rods, disk);
+          rodContent.push(disk);
+          setRods([...rods]);
+        }
         event.stopImmediatePropagation();
       }
     }
@@ -43,12 +63,21 @@ export function Rod({ rods, rodIndex, setRods }: RodProps) {
     }
   }
 
-  function deleteOccurence(array: string[][], value: string) {
-    for (let i = 0; i < array.length; i++) {
-      const index = array[i].indexOf(value);
-      if (index > -1) {
-        array[i].splice(index, 1);
-      }
+  function handleDragOver(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault();
+    const target = e.target as HTMLElement;
+
+    if (target) {
+      target.classList.add("drag-over");
+    }
+  }
+
+  function handleDragLeave(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault();
+    const target = e.target as HTMLElement;
+
+    if (target) {
+      target.classList.remove("drag-over");
     }
   }
 
@@ -56,7 +85,8 @@ export function Rod({ rods, rodIndex, setRods }: RodProps) {
     <div
       className="RodContainer"
       data-rod={rodIndex}
-      onDragOver={(e) => e.preventDefault()}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
     >
       <div className="VerticalRod" data-rod={rodIndex} />
       <div className="HorizontalRod" data-rod={rodIndex} />
@@ -65,9 +95,11 @@ export function Rod({ rods, rodIndex, setRods }: RodProps) {
           rod.map((diskSize, index) => {
             return (
               <div
-                draggable
+                draggable={index === rod.length - 1}
                 data-disk={diskSize}
-                className={`slot${index} ${diskSize} disk`}
+                className={`slot${index} ${diskSize} ${
+                  rod.length - 1 === index ? "drag" : ""
+                }`}
               />
             );
           })}

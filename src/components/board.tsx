@@ -20,6 +20,7 @@ const diskClassName = [
 
 export function Board({ numberOfDisks }: BoardProps) {
   const [rods, setRods] = useState<string[][]>([]);
+  const [moves, setMoves] = useState<number>(0);
 
   useEffect(() => {
     const newRods: string[][] = [[], [], []];
@@ -30,14 +31,20 @@ export function Board({ numberOfDisks }: BoardProps) {
     setRods(newRods);
   }, [numberOfDisks]);
 
+  useEffect(() => {
+    if (rods[2] && rods[2].length === numberOfDisks) {
+      alert(`You won in ${moves} moves !`);
+    }
+  }, [rods, numberOfDisks, moves]);
+
   return (
     <>
       <div className="game-board">
-        <Rod rods={rods} rodIndex={0} setRods={setRods} />
-        <Rod rods={rods} rodIndex={1} setRods={setRods} />
-        <Rod rods={rods} rodIndex={2} setRods={setRods} />
+        <Rod rods={rods} rodIndex={0} setRods={setRods} setMoves={setMoves} />
+        <Rod rods={rods} rodIndex={1} setRods={setRods} setMoves={setMoves} />
+        <Rod rods={rods} rodIndex={2} setRods={setRods} setMoves={setMoves} />
       </div>
-      <Score />
+      <Score moves={moves} minMoves={Math.pow(2, numberOfDisks) - 1} />
     </>
   );
 }
