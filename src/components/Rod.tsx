@@ -39,6 +39,7 @@ export function Rod({ rods, rodIndex, setRods, setMoves }: RodProps) {
         target.classList.remove("drag-over");
         const rodContent = rods[parseInt(currentRod)];
         const lastDisk = rodContent[rodContent.length - 1];
+        console.log(rods)
         if (
           !lastDisk ||
           diskClassName.indexOf(lastDisk) > diskClassName.indexOf(disk)
@@ -97,6 +98,7 @@ export function Rod({ rods, rodIndex, setRods, setMoves }: RodProps) {
               <div
                 draggable={index === rod.length - 1}
                 data-disk={diskSize}
+                key={index}
                 className={`slot${index} ${diskSize} ${
                   rod.length - 1 === index ? "drag" : ""
                 }`}
